@@ -1,0 +1,98 @@
+﻿@page "/"
+@using BlazorApp.Services
+@using BlazorApp.Model
+@inject ParticipationFileHandler FileHandler
+@inject ParticipationWinnerSelector ParticipationWinnerSelector
+
+<PageTitle>Index</PageTitle>
+
+<table>
+    <tr>
+        <td>
+            <h1>Let's Find a Winner 🥇</h1>
+            <MudGrid>
+                <MudItem>
+                    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles" Accept=".xls">
+                        <ButtonTemplate>
+                            <MudButton HtmlTag="label"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                                       for="@context">
+                                Upload Event Participation File
+                            </MudButton>
+                        </ButtonTemplate>
+                    </MudFileUpload>
+                </MudItem>
+                <MudItem>
+                    <MudCheckBox @bind-Checked="_includeHostsInDraw" Label="Include Hosts in Draw" Disabled="@ShouldDrawWinnerBeDisabled" />
+                </MudItem>
+                <MudItem>
+                    <MudButton Color="Color.Secondary" Variant="Variant.Filled" Disabled="@ShouldDrawWinnerBeDisabled" OnClick="@ChooseWinner">Draw Winner</MudButton>
+                </MudItem>
+            </MudGrid>
+            <br/>
+            @if (_winner != null)
+            {
+                <h3>Winner is @_winner.Name!!!</h3>
+            }
+
+            @if (_participants != null)
+            {
+                <MudDataGrid Items="@_participants" RowStyleFunc="@RowStyle">
+                    <Columns>
+                        <TemplateColumn CellStyle="Width: 30px">
+                            <CellTemplate>
+                                @if (@context.Item.Url == _winner?.Url)
+                                {
+                                    <p class="winner">🥇</p>
+                                }
+                            </CellTemplate>
+                        </TemplateColumn>
+                        <PropertyColumn Property="x => x.Name" Title="Name" CellStyle="font-weight: bold"/>
+                        <TemplateColumn Title="Host">
+                            <CellTemplate>
+                                <MudCheckBox Checked="@context.Item.EventHost" Disabled="true"/>
+                            </CellTemplate>
+                        </TemplateColumn>
+                        <TemplateColumn Title="Profile">
+                            <CellTemplate>
+                                <MudLink Href="@context.Item.Url" Target="_blank">Profile</MudLink>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
+            }
+        </td>
+        <td class="right">
+            <h2>Price Sponsor</h2>
+            <a href="https://www.jetbrains.com/products/" target="_blank"><img src="images/jetbrains.png" width="220px" alt="JetBrains" /></a>
+        </td>
+    </tr>
+</table>
+
+@code
+{
+    private bool ShouldDrawWinnerBeDisabled => _participants == null;
+    private bool _includeHostsInDraw = false;
+    private IBrowserFile? _file;
+    private List<Participant>? _participants;
+    private Participant? _winner;
+
+    private async Task UploadFiles(IBrowserFile file)
+    {
+        _file = file;
+        _participants = await FileHandler.ParseFile(file);
+    }
+
+    private async Task ChooseWinner()
+    {
+        _winner = await ParticipationWinnerSelector.SelectWinner(_participants, _includeHostsInDraw);
+    }
+
+    private string RowStyle(Participant participant, int arg2)
+    {
+        return participant.Url == _winner?.Url ? "background-color:#FDBD13" : string.Empty;
+    }
+}
+
