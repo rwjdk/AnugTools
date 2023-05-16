@@ -17,7 +17,7 @@ public class ParticipationFileHandler
         {
             var lineParts = line.Split(new[] { "\t" }, StringSplitOptions.TrimEntries);
             string name = lineParts[0];
-            bool eventHost = lineParts[3] == "Yes";
+            bool eventHost = !string.IsNullOrWhiteSpace(lineParts[2]);
             string url = lineParts[8];
 
             result.Add(new Participant(name, eventHost, url));

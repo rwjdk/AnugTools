@@ -87,7 +87,8 @@
 
     private async Task ChooseWinner()
     {
-        _winner = await ParticipationWinnerSelector.SelectWinner(_participants, _includeHostsInDraw);
+        _winner = await ParticipationWinnerSelector.SelectWinner(_participants!, _includeHostsInDraw);
+        
     }
 
     private string RowStyle(Participant participant, int arg2)
