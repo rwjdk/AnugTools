@@ -1,17 +1,16 @@
-﻿namespace BlazorApp.Model
+﻿namespace BlazorApp.Model;
+
+
+public class Participant
 {
+    public string Name { get; }
+    public bool EventHost { get; }
+    public string Url { get; }
 
-    public class Participant
+    public Participant(string name, bool eventHost, string url)
     {
-        public string Name { get; }
-        public bool EventHost { get; }
-        public string Url { get; }
-
-        public Participant(string name, bool eventHost, string url)
-        {
-            Name = name;
-            EventHost = eventHost;
-            Url = url;
-        }
+        Name = name;
+        EventHost = eventHost;
+        Url = url;
     }
 }
