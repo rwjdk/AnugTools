@@ -1,4 +1,5 @@
-﻿using BlazorApp.Model;
+﻿using BlazorApp.ExtensionMethods;
+using BlazorApp.Models;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace BlazorApp.Services;
@@ -6,7 +7,7 @@ namespace BlazorApp.Services;
 
 public class ParticipationFileHandler
 {
-    public async Task<List<Participant>> ParseFile(IBrowserFile file)
+    public async Task<IReadOnlyList<Participant>> ParseFile(IBrowserFile file)
     {
         var result = new List<Participant>();
         using var streamReader = new StreamReader(file.OpenReadStream());
@@ -24,7 +25,7 @@ public class ParticipationFileHandler
             result.Add(new Participant(name, eventHost, url));
         }
 
-        return result;
+        return result.OrderByWinnersThenName();
 
     }
 }

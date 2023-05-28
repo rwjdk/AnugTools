@@ -1,5 +1,6 @@
 using BlazorApp;
 using BlazorApp.Services;
+using BlazorApp.ViewModels;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
@@ -12,5 +13,6 @@ builder.Services.AddMudServices();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<ParticipationFileHandler>();
 builder.Services.AddScoped<ParticipationWinnerSelector>();
+builder.Services.AddScoped<IndexViewModel>();
 
 await builder.Build().RunAsync();
