@@ -1,6 +1,8 @@
-﻿using BlazorApp.Models;
+﻿using System.Text.Json;
 using BlazorApp.Services;
 using Microsoft.AspNetCore.Components.Forms;
+using SharedModels.Models.EventParticipants;
+using SharedModels.Models.GroupEvents;
 
 namespace BlazorApp.ViewModels;
 
@@ -8,15 +10,28 @@ public class IndexViewModel
 {
     private readonly ParticipationFileHandler _fileHandler;
     private readonly ParticipationWinnerSelector _participationWinnerSelector;
+    private readonly BackendCaller _backendCaller;
+    private LoadMethod _loadMethod;
     internal bool ShouldDrawWinnerBeDisabled => Participants == null;
     internal bool IncludeHostsInDraw { get; set; }
     internal IReadOnlyList<Participant>? Participants { get; private set; }
     public int NumerOfWinnerToSelect { get; set; } = 1;
 
-    public IndexViewModel(ParticipationFileHandler fileHandler, ParticipationWinnerSelector participationWinnerSelector)
+    public LoadMethod LoadMethod
+    {
+        get => _loadMethod;
+        set
+        {
+            Participants = null;
+            _loadMethod = value;
+        }
+    }
+
+    public IndexViewModel(ParticipationFileHandler fileHandler, ParticipationWinnerSelector participationWinnerSelector, BackendCaller backendCaller)
     {
         _fileHandler = fileHandler;
         _participationWinnerSelector = participationWinnerSelector;
+        _backendCaller = backendCaller;
     }
 
     internal async Task UploadFiles(IBrowserFile file)
@@ -36,5 +51,15 @@ public class IndexViewModel
     internal string RowStyle(Participant participant, int _)
     {
         return participant.Winner ? "background-color:#FCE2A1" : string.Empty;
+    }
+
+    public async Task<IReadOnlyList<Event>?> GetEvents()
+    {
+        return await _backendCaller.GetEvents();
+    }
+
+    public async Task LoadParticipants(Event @event)
+    {
+        Participants = await _backendCaller.LoadParticipants(@event);
     }
 }

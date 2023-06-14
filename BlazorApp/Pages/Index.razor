@@ -1,28 +1,56 @@
 ﻿@page "/"
+@using SharedModels.Models.GroupEvents
 @inject IndexViewModel ViewModel
 <PageTitle>Find Winner</PageTitle>
 
 <table>
     <tr>
         <td>
-            <h1>Let's Find All the Winners</h1>
             <MudGrid>
                 <MudItem>
-                    <MudFileUpload T="IBrowserFile" FilesChanged="ViewModel.UploadFiles" Accept=".xls">
-                        <ButtonTemplate>
-                            <MudButton HtmlTag="label"
-                                       Variant="Variant.Filled"
-                                       Color="Color.Primary"
-                                       Size="Size.Large"
-                                       StartIcon="@Icons.Material.Filled.CloudUpload"
-                                       for="@context">
-                                Upload Event Participation File
-                            </MudButton>
-                        </ButtonTemplate>
-                    </MudFileUpload>
+                    <h1>Let's Find All the Winners</h1>
                 </MudItem>
                 <MudItem>
-                    <MudNumericField @bind-Value="ViewModel.NumerOfWinnerToSelect" Label="Number of Winners to draw" Variant="Variant.Text" Min="1" Max="999" Disabled="@ViewModel.ShouldDrawWinnerBeDisabled" />
+                    <MudRadioGroup @bind-SelectedOption="@ViewModel.LoadMethod">
+                        <MudRadio Option="@(LoadMethod.Api)" Color="Color.Primary">Meetup API</MudRadio>
+                        <MudRadio Option="@(LoadMethod.File)" Color="Color.Default">Participation File</MudRadio>
+                    </MudRadioGroup>
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                @if (ViewModel.LoadMethod == LoadMethod.File)
+                {
+                    <MudItem>
+                        <MudFileUpload T="IBrowserFile" FilesChanged="ViewModel.UploadFiles" Accept=".xls">
+                            <ButtonTemplate>
+                                <MudButton HtmlTag="label"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Primary"
+                                           Size="Size.Large"
+                                           StartIcon="@Icons.Material.Filled.CloudUpload"
+                                           for="@context">
+                                    Upload Event Participation File
+                                </MudButton>
+                            </ButtonTemplate>
+                        </MudFileUpload>
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem>
+                        <MudSelect T="Event" Label="Select Meetup Event" ValueChanged="ViewModel.LoadParticipants" Style="width: 620px" Disabled="_events == null">
+                            @if (_events != null)
+                            {
+                                @foreach (Event item in _events)
+                                {
+                                    <MudSelectItem Value="@item">@item.ToString()</MudSelectItem>
+                                }
+                            }
+                        </MudSelect>
+                    </MudItem>
+                }
+                <MudItem>
+                    <MudNumericField @bind-Value="ViewModel.NumerOfWinnerToSelect" Label="Winners to draw" Variant="Variant.Text" Min="1" Max="999" Disabled="@ViewModel.ShouldDrawWinnerBeDisabled" Style="width: 120px" />
                 </MudItem>
                 <MudItem>
                     <MudCheckBox @bind-Checked="ViewModel.IncludeHostsInDraw" Label="Include Hosts in Draw" Disabled="@ViewModel.ShouldDrawWinnerBeDisabled" />
@@ -31,7 +59,7 @@
                     <MudButton Color="Color.Secondary" Size="Size.Large" Variant="Variant.Filled" Disabled="@ViewModel.ShouldDrawWinnerBeDisabled" OnClick="@ViewModel.ChooseWinner">Draw Winner</MudButton>
                 </MudItem>
             </MudGrid>
-            <br/>
+            <br />
             @if (ViewModel.Participants != null)
             {
                 <MudDataGrid Items="@ViewModel.Participants.OrderByWinnersThenName()" RowStyleFunc="@ViewModel.RowStyle" SortMode="SortMode.None">
@@ -44,10 +72,10 @@
                                 }
                             </CellTemplate>
                         </TemplateColumn>
-                        <PropertyColumn Property="x => x.Name" Title="Name" CellStyle="font-weight: bold"/>
+                        <PropertyColumn Property="x => x.Name" Title="Name" CellStyle="font-weight: bold" />
                         <TemplateColumn Title="Host">
                             <CellTemplate>
-                                <MudCheckBox Checked="@context.Item.EventHost" Disabled="true"/>
+                                <MudCheckBox Checked="@context.Item.EventHost" Disabled="true" />
                             </CellTemplate>
                         </TemplateColumn>
                         <TemplateColumn Title="Profile">
@@ -58,16 +86,20 @@
                     </Columns>
                 </MudDataGrid>
             }
-        </td>
-        <td class="right">
-            <h2>Price Sponsors</h2>
-            <a href="https://www.jetbrains.com/products/" target="_blank"><img src="images/jetbrains.png" width="200px" alt="JetBrains" /></a>
-        </td>
+            </td>
+            <td class="right">
+                <h2>Price Sponsors</h2>
+                <a href="https://www.jetbrains.com/products/" target="_blank"><img src="images/jetbrains.png" width="200px" alt="JetBrains" /></a>
+            </td>
     </tr>
 </table>
 
 @code
 {
-    
-}
+    protected override async Task OnInitializedAsync()
+    {
+        _events = await ViewModel.GetEvents();
+    }
 
+    private IReadOnlyList<Event>? _events;
+}

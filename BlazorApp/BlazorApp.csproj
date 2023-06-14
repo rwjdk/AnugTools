@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Configurations>Debug;Release;DEBUG_REMOTE_BACKEND</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,14 +14,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="ExtensionMethods\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\README.md" Link="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharedModels\SharedModels.csproj" />
   </ItemGroup>
 
 </Project>

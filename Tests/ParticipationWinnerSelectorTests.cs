@@ -1,4 +1,4 @@
-using BlazorApp.Models;
+using SharedModels.Models.EventParticipants;
 
 namespace Tests;
 

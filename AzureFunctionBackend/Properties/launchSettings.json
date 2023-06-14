@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "AzureFunctionBackend": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7083",
+      "launchBrowser": false
+    }
+  }
+}

@@ -1,6 +1,6 @@
 ﻿using BlazorApp.ExtensionMethods;
-using BlazorApp.Models;
 using Microsoft.AspNetCore.Components.Forms;
+using SharedModels.Models.EventParticipants;
 
 namespace BlazorApp.Services;
 
