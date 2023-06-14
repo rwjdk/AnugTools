@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 
 namespace SharedModels.Models.GroupEvents;
-
+#nullable disable
 [DebuggerDisplay("{Id}: {Title} [{Status}] ({Date})")]
 public class Event
 {
