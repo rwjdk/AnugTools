@@ -15,6 +15,7 @@ public class IndexViewModel
     internal bool ShouldDrawWinnerBeDisabled => Participants == null;
     internal bool IncludeHostsInDraw { get; set; }
     internal IReadOnlyList<Participant>? Participants { get; private set; }
+    internal IReadOnlyList<Event>? Events { get; private set; }
     public int NumerOfWinnerToSelect { get; set; } = 1;
 
     public LoadMethod LoadMethod
@@ -53,13 +54,13 @@ public class IndexViewModel
         return participant.Winner ? "background-color:#FCE2A1" : string.Empty;
     }
 
-    public async Task<IReadOnlyList<Event>?> GetEvents()
+    public async Task LoadEvents()
     {
-        return await _backendCaller.GetEvents();
+        Events = await _backendCaller.GetEvents();
     }
 
     public async Task LoadParticipants(Event @event)
     {
-        Participants = await _backendCaller.LoadParticipants(@event);
+        Participants = await _backendCaller.GetParticipants(@event);
     }
 }

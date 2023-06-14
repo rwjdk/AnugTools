@@ -24,7 +24,7 @@ public class BackendCaller
         return events;
     }
 
-    public async Task<List<Participant>?> LoadParticipants(Event @event)
+    public async Task<List<Participant>?> GetParticipants(Event @event)
     {
         string endpoint = $"https://anugtoolsbackend.azurewebsites.net/api/FunctionGetParticipants?eventId={@event.Id}"; //Open for CORS https://localhost:7112
 #if DEBUG

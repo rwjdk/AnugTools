@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to Function App AnugToolsBackend
+name: Backend
 on:
   push:
     branches:

@@ -38,10 +38,10 @@
                 else
                 {
                     <MudItem>
-                        <MudSelect T="Event" Label="Select Meetup Event" ValueChanged="ViewModel.LoadParticipants" Style="width: 620px" Disabled="_events == null">
-                            @if (_events != null)
+                        <MudSelect T="Event" Label="Select Meetup Event" ValueChanged="ViewModel.LoadParticipants" Style="width: 620px" Disabled="ViewModel.Events == null">
+                            @if (ViewModel.Events != null)
                             {
-                                @foreach (Event item in _events)
+                                @foreach (Event item in ViewModel.Events)
                                 {
                                     <MudSelectItem Value="@item">@item.ToString()</MudSelectItem>
                                 }
@@ -89,7 +89,7 @@
             </td>
             <td class="right">
                 <h2>Price Sponsors</h2>
-                <a href="https://www.jetbrains.com/products/" target="_blank"><img src="images/jetbrains.png" width="200px" alt="JetBrains" /></a>
+                <a href="https://www.jetbrains.com/products/" target="_blank"><img src="images/jetbrains.png" style="width: 200px" alt="JetBrains" /></a>
             </td>
     </tr>
 </table>
@@ -98,8 +98,6 @@
 {
     protected override async Task OnInitializedAsync()
     {
-        _events = await ViewModel.GetEvents();
+        await ViewModel.LoadEvents();
     }
-
-    private IReadOnlyList<Event>? _events;
 }
