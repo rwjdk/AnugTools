@@ -1,4 +1,4 @@
-﻿namespace BlazorApp.ViewModels;
+﻿namespace BlazorApp.Models;
 
 public enum LoadMethod
 {

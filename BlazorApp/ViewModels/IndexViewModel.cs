@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using BlazorApp.Models;
 using BlazorApp.Services;
 using Microsoft.AspNetCore.Components.Forms;
 using SharedModels.Models.EventParticipants;
