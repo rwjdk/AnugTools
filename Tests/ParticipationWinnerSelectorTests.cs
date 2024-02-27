@@ -20,6 +20,7 @@ public class ParticipationWinnerSelectorTests
                 {
                     list.Add(new Participant($"Participant {count}", false, string.Empty));
                 }
+
                 list.Add(new Participant("Host 1", true, string.Empty));
                 list.Add(new Participant("Host 2", true, string.Empty));
                 list.Add(new Participant("Host 3", true, string.Empty));
@@ -28,13 +29,9 @@ public class ParticipationWinnerSelectorTests
                 Participant winner = list.First(x => x.Winner);
                 Assert.False(winner.EventHost);
 
-                if (winners.ContainsKey(winner.Name))
+                if (!winners.TryAdd(winner.Name, 1))
                 {
                     winners[winner.Name]++;
-                }
-                else
-                {
-                    winners.Add(winner.Name, 1);
                 }
             }
 
