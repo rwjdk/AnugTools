@@ -5,13 +5,6 @@ namespace BlazorApp.Services;
 
 public class ParticipationWinnerSelector
 {
-    private readonly Random _random;
-
-    public ParticipationWinnerSelector()
-    {
-        _random = new Random(DateTime.Now.Microsecond);
-    }
-
     public void MarkParticipantsAsWinners(IReadOnlyList<Participant> participants, bool includeHosts, int numberOfWinnersToDraw)
     {
         SetWinnerState(participants, false);
@@ -30,7 +23,7 @@ public class ParticipationWinnerSelector
         var winners = new List<Participant>();
         while (winners.Count < numberOfWinnersToDraw)
         {
-            var newWinner = possibleWinners[_random.Next(possibleWinners.Count)];
+            var newWinner = possibleWinners[Random.Shared.Next(possibleWinners.Count)];
             if (!winners.Contains(newWinner))
             {
                 winners.Add(newWinner);
