@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using BlazorApp.Models;
-using BlazorApp.Services;
+﻿using BlazorApp.Services;
 using Microsoft.AspNetCore.Components.Forms;
 using SharedModels.Models.EventParticipants;
 using SharedModels.Models.GroupEvents;
@@ -12,22 +10,11 @@ public class IndexViewModel
     private readonly ParticipationFileHandler _fileHandler;
     private readonly ParticipationWinnerSelector _participationWinnerSelector;
     private readonly BackendCaller _backendCaller;
-    private LoadMethod _loadMethod;
     internal bool ShouldDrawWinnerBeDisabled => Participants == null;
     internal bool IncludeHostsInDraw { get; set; }
     internal IReadOnlyList<Participant>? Participants { get; private set; }
     internal IReadOnlyList<Event>? Events { get; private set; }
     public int NumerOfWinnerToSelect { get; set; } = 1;
-
-    public LoadMethod LoadMethod
-    {
-        get => _loadMethod;
-        set
-        {
-            Participants = null;
-            _loadMethod = value;
-        }
-    }
 
     public IndexViewModel(ParticipationFileHandler fileHandler, ParticipationWinnerSelector participationWinnerSelector, BackendCaller backendCaller)
     {
@@ -47,6 +34,7 @@ public class IndexViewModel
         {
             return;
         }
+
         _participationWinnerSelector.MarkParticipantsAsWinners(Participants, IncludeHostsInDraw, NumerOfWinnerToSelect);
     }
 

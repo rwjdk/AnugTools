@@ -8,11 +8,11 @@
     <Configurations>Debug;Release;DEBUG_REMOTE_BACKEND</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GraphQL.Client" Version="6.0.2" />
-    <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" Version="6.0.2" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.21.0" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.17.0" />
+    <PackageReference Include="GraphQL.Client" Version="6.1.0" />
+    <PackageReference Include="GraphQL.Client.Serializer.SystemTextJson" Version="6.1.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.23.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.17.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharedModels\SharedModels.csproj" />
