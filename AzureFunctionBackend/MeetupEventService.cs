@@ -8,12 +8,7 @@ namespace AzureFunctionBackend;
 
 public class MeetupEventService
 {
-    private readonly GraphQLHttpClient _client;
-
-    public MeetupEventService()
-    {
-        _client = new GraphQLHttpClient("https://api.meetup.com/gql", new SystemTextJsonSerializer());
-    }
+    private readonly GraphQLHttpClient _client = new("https://api.meetup.com/gql", new SystemTextJsonSerializer());
 
     public async Task<IReadOnlyList<Event>> GetLast10Events()
     {

@@ -1,7 +1,6 @@
 ﻿using SharedModels.Models.EventParticipants;
 
-namespace BlazorApp.Services;
-
+namespace SharedModels.Services;
 
 public class ParticipationWinnerSelector
 {

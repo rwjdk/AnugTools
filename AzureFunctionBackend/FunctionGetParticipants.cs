@@ -6,14 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AzureFunctionBackend;
 
-public class FunctionGetParticipants
+public class FunctionGetParticipants(ILoggerFactory loggerFactory)
 {
-    private readonly ILogger _logger;
-
-    public FunctionGetParticipants(ILoggerFactory loggerFactory)
-    {
-        _logger = loggerFactory.CreateLogger<FunctionGetEvents>();
-    }
+    private readonly ILogger _logger = loggerFactory.CreateLogger<FunctionGetEvents>();
 
     [Function("FunctionGetParticipants")]
     public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req, string eventId)

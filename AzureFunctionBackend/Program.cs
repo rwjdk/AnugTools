@@ -1,7 +1,15 @@
+using AzureFunctionBackend;
+using Microsoft.Azure.Functions.Worker.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedModels.Services;
 
-var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults()
-    .Build();
+var builder = FunctionsApplication.CreateBuilder(args);
+builder.Services.AddScoped<ParticipationWinnerSelector>();
+builder.Services.AddScoped<MeetupEventService>();
 
-host.Run();
+builder.EnableMcpToolMetadata();
+
+builder.ConfigureMcpTool(Constants.ToolName);
+
+builder.Build().Run();

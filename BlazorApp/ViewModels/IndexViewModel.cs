@@ -1,6 +1,7 @@
 ﻿using BlazorApp.Services;
 using SharedModels.Models.EventParticipants;
 using SharedModels.Models.GroupEvents;
+using SharedModels.Services;
 
 namespace BlazorApp.ViewModels;
 

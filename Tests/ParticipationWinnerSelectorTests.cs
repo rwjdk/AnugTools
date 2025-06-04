@@ -1,4 +1,5 @@
 using SharedModels.Models.EventParticipants;
+using SharedModels.Services;
 
 namespace Tests;
 
@@ -10,7 +11,7 @@ public class ParticipationWinnerSelectorTests
         for (int x = 0; x < 1000; x++)
         {
             Dictionary<string, int> winners = new Dictionary<string, int>();
-            var selector = new BlazorApp.Services.ParticipationWinnerSelector();
+            var selector = new ParticipationWinnerSelector();
             const int draws = 10000;
             const int participantCount = 20;
             for (int i = 0; i < draws; i++)
